@@ -62,15 +62,15 @@ const Transaction = () => {
 			</h1>
 
 			<div className="overflow-x-auto flex flex-col">
-				<table className="w-full text-sm">
+				<table className="w-full table-fixed border-collapse text-sm">
 					<thead>
-						<tr className="border-b border-slate-200 text-gray-500">
-							<th className="text-left py-3 px-4">Tanggal</th>
-							<th className="text-left py-3 px-4">Keterangan</th>
-							<th className="text-left py-3 px-4">Deskripsi</th>
-							<th className="text-right py-3 px-4">Jumlah</th>
-							<th className="text-center py-3 px-4">Jenis</th>
-							<th></th>
+						<tr className="border-b border-slate-200 text-slate-500 bg-slate-50">
+							<th className="w-[110px] text-left py-3 px-4">Tanggal</th>
+							<th className="w-[110px] text-left py-3 px-4">Keterangan</th>
+							<th className="w-[110px] text-left py-3 px-4">Deskripsi</th>
+							<th className="w-[110px] text-left py-3 px-4">Jumlah</th>
+							<th className="w-[110px] text-center py-3 px-4">Jenis</th>
+							<th className="w-[60px]"></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -103,7 +103,7 @@ const Transaction = () => {
 									</td>
 
 									<td
-										className={`py-3 px-4 text-right font-semibold ${
+										className={`py-3 px-4 text-left font-semibold ${
 											item.jenis === 'pemasukan'
 												? 'text-green-600'
 												: 'text-red-500'
@@ -153,35 +153,35 @@ const Transaction = () => {
 						)}
 					</tbody>
 				</table>
-				<div className="flex items-center gap-3 mt-5 ml-auto">
-					<Button
-						onClick={() => setCurrentPage((prev) => prev - 1)}
-						disabled={currentPage === 1}
-						variant="none"
-						className={`border px-2 py-1 rounded-lg transition ${
-							currentPage === 1
-								? 'border-slate-200 text-slate-300 cursor-not-allowed'
-								: 'border-slate-300 hover:bg-slate-200'
-						}`}
-					>
-						<img src="/assets/arrow-left.svg" alt="" className="w-6" />
-					</Button>
-					<span className="text-sm text-slate-600">
-						Page {currentPage} of {totalPages}
-					</span>
-					<Button
-						onClick={() => setCurrentPage((prev) => prev + 1)}
-						disabled={currentPage === totalPages}
-						variant="none"
-						className={`border px-2 py-1 rounded-lg transition ${
-							currentPage === totalPages
-								? 'border-slate-200 text-slate-300 cursor-not-allowed'
-								: 'border-slate-300 hover:bg-slate-200'
-						}`}
-					>
-						<img src="/assets/arrow-right.svg" alt="" className="w-6" />
-					</Button>
-				</div>
+			</div>
+			<div className="flex items-center gap-3 mt-5 ml-auto">
+				<Button
+					onClick={() => setCurrentPage((prev) => prev - 1)}
+					disabled={currentPage === 1}
+					variant="none"
+					className={`border px-2 py-1 rounded-lg transition ${
+						currentPage === 1
+							? 'border-slate-200 text-slate-300 cursor-not-allowed'
+							: 'border-slate-300 hover:bg-slate-200'
+					}`}
+				>
+					<img src="/assets/arrow-left.svg" alt="" className="w-6" />
+				</Button>
+				<span className="text-sm text-slate-600">
+					Page {currentPage} of {totalPages}
+				</span>
+				<Button
+					onClick={() => setCurrentPage((prev) => prev + 1)}
+					disabled={currentPage === totalPages}
+					variant="none"
+					className={`border px-2 py-1 rounded-lg transition ${
+						currentPage === totalPages
+							? 'border-slate-200 text-slate-300 cursor-not-allowed'
+							: 'border-slate-300 hover:bg-slate-200'
+					}`}
+				>
+					<img src="/assets/arrow-right.svg" alt="" className="w-6" />
+				</Button>
 			</div>
 		</div>
 	);

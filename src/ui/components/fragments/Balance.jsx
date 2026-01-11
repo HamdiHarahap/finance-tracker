@@ -49,7 +49,9 @@ const Balance = () => {
 						</p>
 					</div>
 
-					<Button onClick={handleShowForm}>Tambah Transaksi</Button>
+					<Button onClick={handleShowForm} className="max-[520px]:hidden">
+						Tambah Transaksi
+					</Button>
 				</div>
 
 				<div className="grid grid-cols-2 gap-4 max-[520px]:grid-cols-1">
@@ -73,6 +75,9 @@ const Balance = () => {
 							})}
 						</p>
 					</div>
+					<Button onClick={handleShowForm} className="min-[520px]:block">
+						Tambah Transaksi
+					</Button>
 				</div>
 			</div>
 
