@@ -4,8 +4,8 @@ import { useState, useEffect } from 'react';
 
 const Balance = () => {
 	const [showForm, setShowForm] = useState(false);
-	const [data, setData] = useState(() =>
-		JSON.parse(localStorage.getItem('user'))
+	const [data, setData] = useState(
+		() => JSON.parse(localStorage.getItem('user')) || null
 	);
 
 	useEffect(() => {
