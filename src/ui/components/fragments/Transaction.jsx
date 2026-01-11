@@ -1,8 +1,49 @@
 import { useEffect, useState } from 'react';
-import { getTransaction } from '../../../services/transaction.service';
+import {
+	getTransaction,
+	deleteTransaction,
+} from '../../../services/transaction.service';
+import Button from '../elements/Button';
+import Action from './Action';
+import Swal from 'sweetalert2';
 
 const Transaction = () => {
 	const [data, setData] = useState([]);
+	const [showAction, setShowAction] = useState(null);
+	const [currentPage, setCurrentPage] = useState(1);
+	const itemPerPage = 5;
+
+	const lastIndex = currentPage * itemPerPage;
+	const firstIndex = lastIndex - itemPerPage;
+	const currentData = data.slice(firstIndex, lastIndex);
+	const totalPages = Math.ceil(data.length / itemPerPage);
+
+	const handleDelete = (id) => {
+		Swal.fire({
+			title: 'Kamu ingin hapus ini?',
+			text: 'Kamu akan menghapus data dari sistem ini!',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Ya, hapus',
+		}).then((result) => {
+			if (result.isConfirmed) {
+				const res = deleteTransaction(id);
+				if (res.success) {
+					Swal.fire({
+						title: res.message,
+						icon: 'success',
+					});
+				} else {
+					Swal.fire({
+						title: res.message,
+						icon: 'error',
+					});
+				}
+			}
+		});
+	};
 
 	useEffect(() => {
 		const load = () => {
@@ -20,7 +61,7 @@ const Transaction = () => {
 				Riwayat Transaksi
 			</h1>
 
-			<div className="overflow-x-auto">
+			<div className="overflow-x-auto flex flex-col">
 				<table className="w-full text-sm">
 					<thead>
 						<tr className="border-b border-slate-200 text-gray-500">
@@ -29,6 +70,7 @@ const Transaction = () => {
 							<th className="text-left py-3 px-4">Deskripsi</th>
 							<th className="text-right py-3 px-4">Jumlah</th>
 							<th className="text-center py-3 px-4">Jenis</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -39,7 +81,7 @@ const Transaction = () => {
 								</td>
 							</tr>
 						) : (
-							data.map((item, index) => (
+							currentData.map((item, index) => (
 								<tr
 									key={index}
 									className="border-b border-slate-100 hover:bg-slate-50 transition"
@@ -86,11 +128,60 @@ const Transaction = () => {
 											{item.jenis}
 										</span>
 									</td>
+									<td className="py-3 px-4 text-center relative">
+										<Button
+											variant="none"
+											className="hover:border-slate-300 hover:bg-slate-200 p-1 rounded-lg transition"
+											onClick={() =>
+												setShowAction(showAction === index ? null : index)
+											}
+										>
+											<img src="/assets/menu.svg" alt="" className="w-4" />
+										</Button>
+
+										{showAction === index && (
+											<div className="absolute -left-12 mt-2 z-50">
+												<Action
+													item={item}
+													handleDelete={() => handleDelete(item.id)}
+												/>
+											</div>
+										)}
+									</td>
 								</tr>
 							))
 						)}
 					</tbody>
 				</table>
+				<div className="flex items-center gap-3 mt-5 ml-auto">
+					<Button
+						onClick={() => setCurrentPage((prev) => prev - 1)}
+						disabled={currentPage === 1}
+						variant="none"
+						className={`border px-2 py-1 rounded-lg transition ${
+							currentPage === 1
+								? 'border-slate-200 text-slate-300 cursor-not-allowed'
+								: 'border-slate-300 hover:bg-slate-200'
+						}`}
+					>
+						<img src="/assets/arrow-left.svg" alt="" className="w-6" />
+					</Button>
+					<span className="text-sm text-slate-600">
+						Page {currentPage} of {totalPages}
+					</span>
+					<Button
+						onClick={() => setCurrentPage((prev) => prev + 1)}
+						disabled={currentPage === totalPages}
+						variant="none"
+						className={`border px-2 py-1 rounded-lg transition ${
+							currentPage === totalPages
+								? 'border-slate-200 text-slate-300 cursor-not-allowed'
+								: 'border-slate-300 hover:bg-slate-200'
+						}`}
+					>
+						<img src="/assets/arrow-right.svg" alt="" className="w-6" />
+					</Button>
+				</div>
 			</div>
 		</div>
 	);
