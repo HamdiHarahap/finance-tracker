@@ -5,6 +5,7 @@ const Button = (props) => {
 		onClick = () => {},
 		type = 'button',
 		className,
+		disabled = false,
 	} = props;
 
 	const variants = {
@@ -22,6 +23,7 @@ const Button = (props) => {
 			className={`${variants[variant]} cursor-pointer ${className}`}
 			onClick={onClick}
 			type={type}
+			disabled={disabled}
 		>
 			{children}
 		</button>
