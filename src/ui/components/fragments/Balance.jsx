@@ -4,13 +4,15 @@ import { useState, useEffect } from 'react';
 
 const Balance = () => {
 	const [showForm, setShowForm] = useState(false);
-	const [data, setData] = useState(
-		() => JSON.parse(localStorage.getItem('user')) || null
-	);
+	const [data, setData] = useState(() => {
+		const saved = localStorage.getItem('user');
+		return saved ? JSON.parse(saved) : { balance: 0, transactions: [] };
+	});
 
 	useEffect(() => {
 		const load = () => {
-			setData(JSON.parse(localStorage.getItem('user')));
+			const saved = localStorage.getItem('user');
+			setData(saved ? JSON.parse(saved) : { balance: 0, transactions: [] });
 		};
 
 		window.addEventListener('transactionUpdated', load);
