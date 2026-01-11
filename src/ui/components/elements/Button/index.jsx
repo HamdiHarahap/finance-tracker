@@ -14,6 +14,7 @@ const Button = (props) => {
 			'bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transition',
 		logout:
 			'bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition',
+		none: '',
 	};
 
 	return (
