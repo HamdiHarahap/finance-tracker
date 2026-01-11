@@ -1,11 +1,21 @@
 import Button from '../elements/Button';
 import FormTransaction from './FormTransaction';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const Balance = () => {
 	const [showForm, setShowForm] = useState(false);
+	const [data, setData] = useState(() =>
+		JSON.parse(localStorage.getItem('user'))
+	);
 
-	const data = JSON.parse(localStorage.getItem('user'));
+	useEffect(() => {
+		const load = () => {
+			setData(JSON.parse(localStorage.getItem('user')));
+		};
+
+		window.addEventListener('transactionUpdated', load);
+		return () => window.removeEventListener('transactionUpdated', load);
+	}, []);
 
 	const saldo = data.balance;
 	const transactions = data.transactions || [];
