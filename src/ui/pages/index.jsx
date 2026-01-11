@@ -4,25 +4,38 @@ import MainLayout from '../layouts';
 import { logout } from '../../services/auth.service';
 import Swal from 'sweetalert2';
 import useLogin from '../../hooks/useLogin';
+import Transaction from '../components/fragments/Transaction';
 
 const HomePage = () => {
 	const username = useLogin();
 
 	const handleLogout = () => {
-		const res = logout();
-		if (res.success) {
-			Swal.fire({
-				title: res.message,
-				icon: 'success',
-			}).then(() => {
-				window.location.href = '/login';
-			});
-		} else {
-			Swal.fire({
-				title: res.message,
-				icon: 'error',
-			});
-		}
+		Swal.fire({
+			title: 'Kamu ingin logout?',
+			text: 'Kamu akan keluar dari sistem ini!',
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Ya, logout',
+		}).then((result) => {
+			if (result.isConfirmed) {
+				const res = logout();
+				if (res.success) {
+					Swal.fire({
+						title: res.message,
+						icon: 'success',
+					}).then(() => {
+						window.location.href = '/login';
+					});
+				} else {
+					Swal.fire({
+						title: res.message,
+						icon: 'error',
+					});
+				}
+			}
+		});
 	};
 
 	return (
@@ -36,10 +49,13 @@ const HomePage = () => {
 						<p className="text-gray-500 text-sm">Atur keuanganmu di sini</p>
 					</div>
 					<Button variant="logout" onClick={handleLogout}>
-						Logout
+						<img src="/assets/logout.svg" alt="" className="w-5" />
 					</Button>
 				</section>
 				<Balance />
+			</div>
+			<div className="my-6">
+				<Transaction />
 			</div>
 		</MainLayout>
 	);
